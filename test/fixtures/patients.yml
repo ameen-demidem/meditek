@@ -4,7 +4,7 @@ one:
   first_name: MyString
   middle_name: MyString
   last_name: MyString
-  weigth: 1.5
+  weight: 1.5
   height: 1
   mrn: MyString
 
@@ -12,6 +12,6 @@ two:
   first_name: MyString
   middle_name: MyString
   last_name: MyString
-  weigth: 1.5
+  weight: 1.5
   height: 1
   mrn: MyString

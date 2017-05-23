@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'hello_world', to: 'hello_world#index'
   root 'patients#index'
   resources :patients do
     resources :encounters

@@ -1,15 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class Index extends React.Component {
+export default class PatientsIndex extends React.Component {
   static propTypes = {
+    patients: PropTypes.array.isRequired
   };
-
-  constructor(props, _railsContext) {
-    super(props);
-
-    this.state = { };
-  }
 
   render() {
     return <div>

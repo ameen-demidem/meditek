@@ -14,6 +14,9 @@ export default class Index extends React.Component {
   render() {
     return <div>
       <h1>Patient List</h1>
+      <form style={{marginBottom: '10px'}} action="/patients/new">
+        <input type='submit' value='Add Patient'/>
+      </form>
       <table cellPadding="5px">
         <thead><tr>
           <th style={{textAlign: 'left'}}>MRN</th>

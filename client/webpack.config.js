@@ -13,6 +13,7 @@ const config = {
     'es5-shim/es5-sham',
     'babel-polyfill',
     './app/bundles/Patients/startup/registration',
+    './app/bundles/Encounters/startup/registration',
     './app/bundles/HelloWorld/startup/registration',
   ],
 

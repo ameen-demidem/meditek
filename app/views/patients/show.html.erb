@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= react_component "PatientsShow", props: { patient: @patient } %>
+<%= react_component "PatientsShow", props: { patient: @patient, encounters: @patient.encounters } %>
 
 <%= link_to 'Edit', edit_patient_path(@patient) %> |
 <%= link_to 'Back', patients_path %>

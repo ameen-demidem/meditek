@@ -30,7 +30,7 @@ class EncountersController < ApplicationController
     respond_to do |format|
       if @encounter.save
         format.html { redirect_to [@patient, @encounter], notice: 'Encounter was successfully created.' }
-        format.json { render :show, status: :created, location: @encounter }
+        format.json { render :show, status: :created, location: [@patient, @encounter] }
       else
         format.html { render :new }
         format.json { render json: @encounter.errors, status: :unprocessable_entity }
@@ -44,7 +44,7 @@ class EncountersController < ApplicationController
     respond_to do |format|
       if @encounter.update(encounter_params)
         format.html { redirect_to [@patient, @encounter], notice: 'Encounter was successfully updated.' }
-        format.json { render :show, status: :ok, location: @encounter }
+        format.json { render :show, status: :ok, location: [@patient, @encounter] }
       else
         format.html { render :edit }
         format.json { render json: @encounter.errors, status: :unprocessable_entity }
@@ -67,13 +67,13 @@ class EncountersController < ApplicationController
     def set_encounter
       begin
         @encounter = Encounter.find(params[:id])
-        unless @patient.encounters.include?
+        unless @patient.encounters.include? @encounter
           logger.info "Got a request for an encouter (#{:id}) "+
                       "that doesn't belong to the patient #{:patient_id}"
           redirect_to root_path
         end
-      rescue
-        logger.info "Got a request for a non-existing encouter #{:id}"
+      rescue StandardError => e
+        logger.info "Got a request for a non-existing encouter #{params[:id]}"
       end
     end
 
@@ -88,6 +88,8 @@ class EncountersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def encounter_params
-      params.require(:encounter).permit(:visit, :admitted_at, :discharged_at, :location, :room, :bed, :patient_id)
+      params
+        .require(:encounter)
+        .permit(:visit, :admitted_at, :discharged_at, :location, :room, :bed, :patient_id)
     end
 end

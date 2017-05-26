@@ -68,8 +68,8 @@ class EncountersController < ApplicationController
       begin
         @encounter = Encounter.find(params[:id])
         unless @patient.encounters.include? @encounter
-          logger.info "Got a request for an encouter (#{:id}) "+
-                      "that doesn't belong to the patient #{:patient_id}"
+          logger.info "Got a request for an encouter (#{params[:id]}) "+
+                      "that doesn't belong to the patient #{params[:patient_id]}"
           redirect_to root_path
         end
       rescue StandardError => e

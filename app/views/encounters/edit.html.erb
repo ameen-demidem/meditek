@@ -1,6 +1,2 @@
 <h1>Editing Encounter</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', [@patient, @encounter] %> |
-<%= link_to 'Back', patient_encounters_path(@patient) %>
+<%= react_component "EncountersEdit", props: { encounter: @encounter, patient: @patient }  %>

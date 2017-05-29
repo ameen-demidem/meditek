@@ -1,5 +1,1 @@
-<h1>New Encounter</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', patient_encounters_path(@patient) %>
+<%= react_component "EncountersNew", props: { encounter: @encounter, patient: @patient }  %>

@@ -21,6 +21,9 @@ export default class PatientsShow extends React.Component {
       <p><strong>Mrn:</strong> {patient.mrn}</p>
 
       <h1>Patient Encounters</h1>
+      <div className="actions">
+        <button onClick={this.addEncounter}>Add Encounter</button>
+      </div>
       <table cellPadding="5px">
         <thead>
           <tr>
@@ -36,6 +39,10 @@ export default class PatientsShow extends React.Component {
         </tbody>
       </table>
     </div>
+  }
+
+  addEncounter = () => {
+    window.location.href = `/patients/${this.props.patient.id}/encounters/new`;
   }
 }
 

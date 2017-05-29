@@ -26,8 +26,6 @@ export default class EncountersEdit extends React.Component {
       encounter: encounter,
       errors: null
     }
-
-    this.state
   }
 
   render () {

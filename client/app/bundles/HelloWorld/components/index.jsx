@@ -4,7 +4,7 @@ import React from 'react';
 export default class HelloWorld extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired, // this is passed from the Rails view
-    onChange: PropTypes.func.isRequired,
+    onNameChange: PropTypes.func.isRequired,
   };
 
   /**
@@ -16,7 +16,7 @@ export default class HelloWorld extends React.Component {
   }
 
   updateName = (e) => {
-    this.props.onChange(e.target.value);
+    this.props.onNameChange(e.target.value);
   };
 
   render() {

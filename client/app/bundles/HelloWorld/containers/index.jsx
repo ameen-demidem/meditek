@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createStore } from 'redux';
-import reducer from './reducers/HelloWorld';
-import HelloWorldView from '../components/HelloWorld';
+import reducer from '../reducers';
+import HelloWorldView from '../components';
 
 let store;
 

@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactOnRails from 'react-on-rails';
+import axios from 'axios';
 
 export default class PatientsNew extends React.Component {
-  constructor (props) {
-    super(props);
 
-    const patient = this.props.patient;
-
-    this.state = {
-      firstName: patient.first_name || '',
-      lastName: patient.last_name || '',
-      middleName: patient.middle_name || '',
-      weight: patient.weight || '',
-      height: patient.height || '',
-      mrn: patient.mrn || ''
-    }
+  static propTypes = {
+    patient: PropTypes.shape({
+      first_name: PropTypes.string,
+      middle_name: PropTypes.string,
+      last_name: PropTypes.string,
+      weight: PropTypes.number,
+      height: PropTypes.number,
+      mrn: PropTypes.string,
+    }),
+    errors: PropTypes.object,
+    onFieldChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired
   }
 
   render () {
@@ -29,14 +30,8 @@ export default class PatientsNew extends React.Component {
     }
 
     return (
-      <form
-        className="new_patient"
-        id="new_patient"
-        action="/patients"
-        acceptCharset="UTF-8"
-        method="post"
-      >
-      <input name="utf8" type="hidden" value="✓"/>
+      <div>
+        <input name="utf8" type="hidden" value="✓"/>
         <input
           type="hidden"
           name="authenticity_token"
@@ -45,81 +40,88 @@ export default class PatientsNew extends React.Component {
         <div className={styles.firstName}>
           <label htmlFor="patient_first_name">First name</label><br/>
           <input
-            value={this.state.firstName}
+            value={this.props.patient.first_name}
             onChange={this.inputOnChange}
             type="text"
-            name="patient[first_name]"
+            name="first_name"
             id="patient_first_name"
           />
         </div>
         <div className={styles.middleName}>
           <label htmlFor="patient_middle_name">Middle name</label><br/>
           <input
-            value={this.state.middleName}
+            value={this.props.patient.middle_name}
             onChange={this.inputOnChange}
             type="text"
-            name="patient[middle_name]"
+            name="middle_name"
             id="patient_middle_name"/>
         </div>
         <div className={styles.lastName}>
           <label htmlFor="patient_last_name">Last name</label><br/>
           <input
-            value={this.state.lastName}
+            value={this.props.patient.last_name}
             onChange={this.inputOnChange}
             type="text"
-            name="patient[last_name]"
+            name="last_name"
             id="patient_last_name"/>
         </div>
         <div className={styles.weight}>
           <label htmlFor="patient_weight">Weight</label><br/>
           <input
-            value={this.state.weight}
+            value={this.props.patient.weight}
             onChange={this.inputOnChange}
-            type="text"
-            name="patient[weight]"
+            type="number"
+            name="weight"
             id="patient_weight"/>
         </div>
         <div className={styles.height}>
           <label htmlFor="patient_height">Height</label><br/>
           <input
-            value={this.state.height}
+            value={this.props.patient.height}
             onChange={this.inputOnChange}
             type="number"
-            name="patient[height]"
+            name="height"
             id="patient_height"/>
         </div>
         <div className={styles.mrn}>
           <label htmlFor="patient_mrn">Mrn</label><br/>
           <input
-            value={this.state.mrn}
+            value={this.props.patient.mrn}
             onChange={this.inputOnChange}
             type="text"
-            name="patient[mrn]"
+            name="mrn"
             id="patient_mrn"/>
         </div>
         <div className="actions">
-          <input type="submit" name="commit" value="Create Patient"/>
-          <input type="submit" name="cancel" value="Cancel" onClick={this.cancel}/>
+          <button onClick={this.addPatient}>Create Patient</button>
+          <button onClick={this.cancel}>Cancel</button>
         </div>
-      </form>
+      </div>
     )
   }
 
-  cancel = () => {
-    window.history.back();
+  cancel = (e) => {
+    window.location.href = '/patients';
   }
 
   inputOnChange = (e) => {
-    const lut = {
-      "patient[first_name]": "firstName",
-      "patient[middle_name]": "middleName",
-      "patient[last_name]": "lastName",
-      "patient[weight]": "weight",
-      "patient[height]": "height",
-      "patient[mrn]": "mrn",
-    }
-    var state = this.state;
-    state[lut[e.target.name]] = e.target.value;
-    this.setState(state)
+    this.props.onFieldChange(e.target.name, e.target.value);
+  }
+
+  addPatient = () => {
+    const endPoint = '/patients.json';
+
+    axios
+      .post(endPoint, this.props.patient)
+      .then(this.handleSuccess)
+      .catch(this.handleError);
+  }
+
+  handleSuccess = (response) => {
+    window.location.href = '/patients';
+  }
+
+  handleError = (error) => {
+    this.props.onError(error.response.data);
   }
 }

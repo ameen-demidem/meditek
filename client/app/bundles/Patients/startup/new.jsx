@@ -1,12 +1,15 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducer from '../reducers/new'
 import { Provider } from 'react-redux';
 import PatientsNew from '../containers/new';
 import PropTypes from 'prop-types';
+import thunkMiddleware from 'redux-thunk';
+
 
 const patientsNew = ({patient, errors}) => {
-  const store = createStore(reducer, {patient, errors});
+  const initialState = {patient: patient, errors: errors, posting: false, done: false};
+  const store = createStore(reducer, initialState, applyMiddleware(thunkMiddleware));
   return <Provider store={store}>
     <PatientsNew />
   </Provider>

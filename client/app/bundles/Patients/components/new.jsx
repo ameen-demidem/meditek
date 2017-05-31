@@ -15,11 +15,23 @@ export default class PatientsNew extends React.Component {
       mrn: PropTypes.string,
     }),
     errors: PropTypes.object,
+    posting: PropTypes.bool,
+    done: PropTypes.bool,
     onFieldChange: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired
+    addPatient: PropTypes.func.isRequired,
   }
 
   render () {
+    // if the form has been successfully submitted, just redirect
+    if (this.props.done && !this.props.posting) {
+      window.location.href = '/patients';
+      return null;
+    }
+
+    if (this.props.posting) {
+      return <h1>Posting ... Please, wait ... </h1>
+    }
+
     var styles = {
       firstName : `field ${this.props.errors.first_name ? "field_with_errors" : null}`,
       middleName : `field ${this.props.errors.middle_name ? "field_with_errors" : null}`,
@@ -109,19 +121,6 @@ export default class PatientsNew extends React.Component {
   }
 
   addPatient = () => {
-    const endPoint = '/patients.json';
-
-    axios
-      .post(endPoint, this.props.patient)
-      .then(this.handleSuccess)
-      .catch(this.handleError);
-  }
-
-  handleSuccess = (response) => {
-    window.location.href = '/patients';
-  }
-
-  handleError = (error) => {
-    this.props.onError(error.response.data);
+    this.props.addPatient();
   }
 }
